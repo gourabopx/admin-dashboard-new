@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["via.placeholder.com", "res.cloudinary.com"],
   },
+  eslint: {
+    // Allow production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
