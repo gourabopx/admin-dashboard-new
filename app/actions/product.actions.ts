@@ -29,7 +29,7 @@ export async function createProduct(data: {
 }) {
   try {
     // Upload all images to Cloudinary
-    const uploadPromises = data.images.map((image) => uploadImage(image));
+    const uploadPromises = data.images.map((image) => uploadImage(image, "products"));
     const uploadedImages = await Promise.all(uploadPromises);
 
     // Create product in database
