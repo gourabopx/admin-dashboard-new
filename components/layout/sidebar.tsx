@@ -108,6 +108,12 @@ const routes = [
     href: "/reviews",
     color: "text-amber-500",
   },
+  {
+    label: "Profile",
+    icon: Users,
+    href: "/profile",
+    color: "text-cyan-500",
+  },
 ];
 
 interface SidebarProps {

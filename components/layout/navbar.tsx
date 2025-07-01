@@ -2,6 +2,7 @@
 
 import { Bell, Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -16,9 +17,11 @@ const Navbar = () => {
         <Button variant="ghost" size="icon" className="hover:bg-white/10">
           <Settings className="h-5 w-5 text-zinc-400" />
         </Button>
-        <Button variant="ghost" size="icon" className="hover:bg-white/10">
-          <User className="h-5 w-5 text-zinc-400" />
-        </Button>
+        <Link href="/profile">
+          <Button variant="ghost" size="icon" className="hover:bg-white/10">
+            <User className="h-5 w-5 text-zinc-400" />
+          </Button>
+        </Link>
       </div>
     </div>
   );
