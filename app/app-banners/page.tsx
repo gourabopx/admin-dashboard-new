@@ -56,7 +56,7 @@ export default function AppBannersPage() {
             if (e.target?.result) {
               const result = await uploadAppBanner(e.target.result as string);
               if (result.success) {
-                setBanners((prev) => [...prev, result.data]);
+                setBanners((prev) => [...prev, result.data as Banner]);
                 toast.success("Banner uploaded successfully");
               } else {
                 toast.error("Failed to upload banner");

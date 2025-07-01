@@ -65,7 +65,7 @@ export default function CouponsPage() {
   const fetchCoupons = async () => {
     const result = await getAllCoupons();
     if (result.success) {
-      setCoupons(result.data);
+      setCoupons(result.data ?? []);
     } else {
       toast.error("Failed to fetch coupons");
     }
