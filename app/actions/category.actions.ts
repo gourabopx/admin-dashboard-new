@@ -7,7 +7,7 @@ import { uploadImage, deleteImage } from "@/lib/cloudinary";
 export async function createCategory(data: { name: string; image: string }) {
   try {
     // Upload image to Cloudinary
-    const imageResult = await uploadImage(data.image);
+    const imageResult = await uploadImage(data.image, "categories");
 
     // Create category in database
     const category = await prisma.category.create({
@@ -58,7 +58,7 @@ export async function updateCategory(
 
     // If new image is provided, upload it and delete old one
     if (data.image) {
-      const imageResult = await uploadImage(data.image);
+      const imageResult = await uploadImage(data.image, "categories");
       if (data.oldImagePublicId) {
         await deleteImage(data.oldImagePublicId);
       }
