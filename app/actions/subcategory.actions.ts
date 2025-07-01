@@ -11,7 +11,7 @@ export async function createSubCategory(data: {
 }) {
   try {
     // Upload image to Cloudinary
-    const imageResult = await uploadImage(data.image);
+    const imageResult = await uploadImage(data.image, "subcategories");
 
     // Create subcategory in database
     const subcategory = await prisma.subCategory.create({
@@ -84,7 +84,7 @@ export async function updateSubCategory(
 
     // If new image is provided, upload it and delete old one
     if (data.image) {
-      const imageResult = await uploadImage(data.image);
+      const imageResult = await uploadImage(data.image, "subcategories");
       if (data.oldImagePublicId) {
         await deleteImage(data.oldImagePublicId);
       }

@@ -275,26 +275,33 @@ export async function updateProduct(
     // Upload new images to Cloudinary (if they are base64)
     const uploadPromises = data.images
       .filter((img) => img.startsWith("data:"))
-      .map((image) => uploadImage(image));
+      .map((image) => uploadImage(image, "products"));
     const uploadedImages = await Promise.all(uploadPromises);
 
-    // Combine existing images (not base64) with newly uploaded ones
-    const finalImages = [
-      ...data.images
-        .filter((img) => !img.startsWith("data:"))
-        .map((url) => {
-          const existingImage = data.imagesToDelete?.find(
-            (img) => img.public_id && url.includes(img.public_id)
-          );
-          return existingImage
-            ? null
-            : { url, public_id: url.split("/").pop()?.split(".")[0] };
-        })
-        .filter(Boolean),
-      ...uploadedImages.map((img) => ({
-        url: img.url,
-        public_id: img.public_id,
-      })),
+    // Build the images array ensuring no null values are present
+    const existingImages = data.images
+      .filter((img) => !img.startsWith("data:"))
+      .map((url) => {
+        const isMarkedForDeletion = data.imagesToDelete?.some(
+          (img) => img.public_id && url.includes(img.public_id)
+        );
+        if (isMarkedForDeletion) return undefined;
+
+        return {
+          url,
+          public_id: url.split("/").pop()?.split(".")[0],
+        } as { url: string; public_id?: string };
+      })
+      .filter((img): img is { url: string; public_id?: string } => Boolean(img));
+
+    const newImages = uploadedImages.map((img) => ({
+      url: img.url,
+      public_id: img.public_id,
+    }));
+
+    const finalImages: { url: string; public_id?: string }[] = [
+      ...existingImages,
+      ...newImages,
     ];
 
     // Update product in database
